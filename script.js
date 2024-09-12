@@ -3,6 +3,7 @@ const promoDataUrl = 'promo_list.json';
 
 let selectedBrand = '';
 let selectedModel = '';
+let selectedModelButton = null; // Store the selected model button
 
 // Load data from JSON
 fetch(promoDataUrl)
@@ -23,6 +24,9 @@ function initializePage(data) {
         button.addEventListener('click', () => handleBrandSelection(brand, data));
         brandSection.appendChild(button);
     });
+
+    // Add the reset button functionality
+    document.getElementById('reset-btn').addEventListener('click', resetPage);
 }
 
 // Handle brand selection
@@ -35,7 +39,7 @@ function handleBrandSelection(brand, data) {
     models.forEach(model => {
         const button = document.createElement('button');
         button.innerText = model;
-        button.addEventListener('click', () => handleModelSelection(model));
+        button.addEventListener('click', () => handleModelSelection(button, model));
         modelSection.appendChild(button);
     });
 
@@ -44,13 +48,22 @@ function handleBrandSelection(brand, data) {
 }
 
 // Handle model selection
-function handleModelSelection(model) {
+function handleModelSelection(button, model) {
     selectedModel = model;
 
-    // Hide the model section after selecting a model
-    document.getElementById('model-section').style.display = 'none';
+    // Hide other model buttons
+    const modelButtons = document.querySelectorAll('#models button');
+    modelButtons.forEach(btn => {
+        btn.style.display = 'none'; // Hide all other model buttons
+    });
 
-    // Show the "View Promo" button immediately after selecting the model
+    // Make the selected model button visible
+    button.style.display = 'block';
+    button.style.backgroundColor = '#007bff'; // Change background color to indicate it's selected
+    button.style.color = 'white'; // Change text color to white
+    button.style.fontWeight = 'bold'; // Make the text bold
+
+    // Show the "View Promo" button after selecting the model
     document.getElementById('view-promo-section').style.display = 'block';
 }
 
@@ -61,6 +74,14 @@ document.getElementById('view-promo-btn').addEventListener('click', () => {
         .then(data => {
             const promo = data.find(item => item.BRAND === selectedBrand && item.MODEL === selectedModel);
             displayPromoInfo(promo);
+
+            // Hide all buttons except reset after displaying promo info
+            document.getElementById('brands').style.display = 'none';
+            document.getElementById('model-section').style.display = 'none';
+            document.getElementById('view-promo-section').style.display = 'none';
+            
+            // Show the reset button
+            document.getElementById('reset-btn-section').style.display = 'block';
         })
         .catch(error => console.error('Error loading promo data:', error));
 });
@@ -74,4 +95,24 @@ function displayPromoInfo(promo) {
 
     // Show promo information section
     document.getElementById('promo-info-section').style.display = 'block';
+}
+
+// Reset the page to start from scratch
+function resetPage() {
+    selectedBrand = '';
+    selectedModel = '';
+
+    // Show all sections and buttons again
+    document.getElementById('brands').style.display = 'block';
+    document.getElementById('view-promo-section').style.display = 'none';
+    document.getElementById('promo-info-section').style.display = 'none';
+    document.getElementById('model-section').style.display = 'none';
+    document.getElementById('reset-btn-section').style.display = 'none';
+
+    // Clear models and promo information
+    document.getElementById('models').innerHTML = '';
+    document.getElementById('normal-price').innerText = '';
+    document.getElementById('discounted-price').innerText = '';
+    document.getElementById('free-gift').innerText = '';
+    document.getElementById('s-coin-rebate').innerText = '';
 }
