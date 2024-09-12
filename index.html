@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Selection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Brand and Model</h1>
+
+        <!-- Brand Selection -->
+        <div id="brand-section">
+            <h2>Select a Brand</h2>
+            <div id="brands">
+                <!-- Buttons for each brand will be dynamically created here -->
+            </div>
+        </div>
+
+        <!-- Model Selection -->
+        <div id="model-section" style="display:none;">
+            <h2>Select a Model</h2>
+            <div id="models">
+                <!-- Buttons for models based on the selected brand will be dynamically created here -->
+            </div>
+        </div>
+
+        <!-- View Promo Button -->
+        <div id="view-promo-section" style="display:none;">
+            <button id="view-promo-btn">View Promo</button>
+        </div>
+
+        <!-- Promo Information -->
+        <div id="promo-info-section" style="display:none;">
+            <h2>Promo Information</h2>
+            <p><strong>Normal Price:</strong> <span id="normal-price"></span></p>
+            <p><strong>Discounted Price:</strong> <span id="discounted-price"></span></p>
+            <p><strong>Free Gift:</strong> <span id="free-gift"></span></p>
+            <p><strong>S-Coin Rebate:</strong> <span id="s-coin-rebate"></span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
