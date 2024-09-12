@@ -1,17 +1,27 @@
-// Sample JSON data (you will replace this with your JSON file)
-const promoDataUrl = 'promo_list.json';
-
+let promoData = []; // Store Excel data globally
 let selectedBrand = '';
 let selectedModel = '';
 let selectedModelButton = null; // Store the selected model button
 
-// Load data from JSON
-fetch(promoDataUrl)
-    .then(response => response.json())
+// Ensure the Excel file is publicly accessible in the same folder on GitHub Pages
+fetch('promo_list.xlsx')
+    .then(response => response.arrayBuffer())
     .then(data => {
-        initializePage(data);
+        // Use SheetJS to read the Excel data
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0]; // Assume the first sheet contains the data
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert sheet to JSON format
+        promoData = XLSX.utils.sheet_to_json(sheet);
+
+        // Initialize the page with the data
+        initializePage(promoData);
     })
-    .catch(error => console.error('Error loading data:', error));
+    .catch(error => {
+        console.error('Error loading Excel data:', error);
+        alert('Error loading Excel file. Ensure the file is publicly accessible.');
+    });
 
 // Initialize the page with brands and models
 function initializePage(data) {
@@ -69,29 +79,41 @@ function handleModelSelection(button, model) {
 
 // Handle "View Promo" button click
 document.getElementById('view-promo-btn').addEventListener('click', () => {
-    fetch(promoDataUrl)
-        .then(response => response.json())
-        .then(data => {
-            const promo = data.find(item => item.BRAND === selectedBrand && item.MODEL === selectedModel);
+    // Ensure promoData is available and contains data
+    if (promoData && promoData.length > 0) {
+        // Find the promo for the selected brand and model
+        const promo = promoData.find(item => item.BRAND === selectedBrand && item.MODEL === selectedModel);
+        if (promo) {
             displayPromoInfo(promo);
+        } else {
+            console.error('No promo found for the selected brand and model.');
+        }
 
-            // Hide all buttons except reset after displaying promo info
-            document.getElementById('brands').style.display = 'none';
-            document.getElementById('model-section').style.display = 'none';
-            document.getElementById('view-promo-section').style.display = 'none';
-            
-            // Show the reset button
-            document.getElementById('reset-btn-section').style.display = 'block';
-        })
-        .catch(error => console.error('Error loading promo data:', error));
+        // Hide all buttons except reset after displaying promo info
+        document.getElementById('brands').style.display = 'none';
+        document.getElementById('model-section').style.display = 'none';
+        document.getElementById('view-promo-section').style.display = 'none';
+
+        // Show the reset button
+        document.getElementById('reset-btn-section').style.display = 'block';
+    } else {
+        console.error('Promo data is not loaded yet.');
+    }
 });
 
 // Display promo information
 function displayPromoInfo(promo) {
+    // Display selected model
+    document.getElementById('selected-model').innerText = `Selected Model: ${selectedModel}`;
+
+    // Display promo details
     document.getElementById('normal-price').innerText = `RM ${promo.RCP}`;
     document.getElementById('discounted-price').innerText = `RM ${promo.FINAL}`;
     document.getElementById('free-gift').innerText = promo.GIFT !== '' ? promo.GIFT : 'No free gift available';
-    document.getElementById('s-coin-rebate').innerText = `${promo['S-Coin'] * 100}%`;
+
+    // Handle S-Coin (show blank if not available)
+    const sCoinRebate = promo['S-Coin'] ? `${promo['S-Coin'] * 100}%` : '';
+    document.getElementById('s-coin-rebate').innerText = sCoinRebate;
 
     // Show promo information section
     document.getElementById('promo-info-section').style.display = 'block';
@@ -115,4 +137,5 @@ function resetPage() {
     document.getElementById('discounted-price').innerText = '';
     document.getElementById('free-gift').innerText = '';
     document.getElementById('s-coin-rebate').innerText = '';
+    document.getElementById('selected-model').innerText = '';
 }
