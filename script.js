@@ -111,28 +111,21 @@ function displayPromoInfo(promo) {
     document.getElementById('discounted-price').innerText = `RM ${promo.FINAL}`;
     document.getElementById('free-gift').innerText = promo.GIFT !== '' ? promo.GIFT : 'No free gift available';
 
-    // Handle S-Coin (show blank if not available)
-    const sCoinRebate = promo['S-Coin'] ? `${promo['S-Coin'] * 100}%` : '';
-    document.getElementById('s-coin-rebate').innerText = sCoinRebate;
+    // Handle S-Coin - Replace with image
+    const sCoinValue = promo['S-Coin'] ? promo['S-Coin'] * 100 : null;
+    const sCoinSection = document.getElementById('s-coin-section');
+    sCoinSection.innerHTML = ''; // Clear existing content
 
-    // Handle PAC and VOU (new section)
-    let pacInfo = promo.PAC || ''; // Get PAC value
-    let vouInfo = promo.VOU ? `INSTANTSAVE${promo.VOU}` : ''; // Format VOU value if it exists
-    let codeToKeyText = '';
-
-    // Combine PAC and VOU based on existence
-    if (pacInfo && vouInfo) {
-        codeToKeyText = `Code need to key: ${pacInfo} & ${vouInfo}`;
-    } else if (pacInfo) {
-        codeToKeyText = `Code need to key: ${pacInfo}`;
-    } else if (vouInfo) {
-        codeToKeyText = `Code need to key: ${vouInfo}`;
+    if (sCoinValue) {
+        const img = document.createElement('img');
+        img.src = `S-Coin_${sCoinValue}.png`; // Dynamically use the correct image
+        img.alt = `${sCoinValue}% S-Coin Rebate`;
+        img.style.width = '100%'; // Make it responsive to the container
+        img.style.maxWidth = '300px'; // Ensure it fits nicely
+        img.style.display = 'block';
+        img.style.margin = '0 auto'; // Center the image
+        sCoinSection.appendChild(img);
     }
-
-    // Display the "Code need to key" section if applicable
-    const codeToKeySection = document.getElementById('code-to-key');
-    codeToKeySection.innerText = codeToKeyText;
-    codeToKeySection.style.display = codeToKeyText ? 'block' : 'none'; // Show or hide based on content
 
     // Show promo information section
     document.getElementById('promo-info-section').style.display = 'block';
@@ -155,7 +148,6 @@ function resetPage() {
     document.getElementById('normal-price').innerText = '';
     document.getElementById('discounted-price').innerText = '';
     document.getElementById('free-gift').innerText = '';
-    document.getElementById('s-coin-rebate').innerText = '';
     document.getElementById('selected-model').innerText = '';
-    document.getElementById('code-to-key').innerText = ''; // Reset the code-to-key section
+    document.getElementById('s-coin-section').innerHTML = ''; // Reset the S-Coin section
 }
