@@ -127,6 +127,25 @@ function displayPromoInfo(promo) {
         sCoinSection.appendChild(img);
     }
 
+    // Handle PAC and VOU (Code need to key section)
+    let pacInfo = promo.PAC || ''; // Get PAC value
+    let vouInfo = promo.VOU ? `INSTANTSAVE${promo.VOU}` : ''; // Format VOU value if it exists
+    let codeToKeyText = '';
+
+    // Combine PAC and VOU based on existence
+    if (pacInfo && vouInfo) {
+        codeToKeyText = `Code need to key: ${pacInfo} & ${vouInfo}`;
+    } else if (pacInfo) {
+        codeToKeyText = `Code need to key: ${pacInfo}`;
+    } else if (vouInfo) {
+        codeToKeyText = `Code need to key: ${vouInfo}`;
+    }
+
+    // Display the "Code need to key" section if applicable
+    const codeToKeySection = document.getElementById('code-to-key');
+    codeToKeySection.innerText = codeToKeyText;
+    codeToKeySection.style.display = codeToKeyText ? 'block' : 'none'; // Show or hide based on content
+
     // Show promo information section
     document.getElementById('promo-info-section').style.display = 'block';
 }
@@ -150,4 +169,5 @@ function resetPage() {
     document.getElementById('free-gift').innerText = '';
     document.getElementById('selected-model').innerText = '';
     document.getElementById('s-coin-section').innerHTML = ''; // Reset the S-Coin section
+    document.getElementById('code-to-key').innerText = ''; // Reset the code-to-key section
 }
