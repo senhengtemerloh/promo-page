@@ -69,12 +69,13 @@ button:hover {
     margin-bottom: 5px;
 }
 
-/* Styling for S-Coin Rebate - Bigger and bold */
-#s-coin-rebate {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #ff9800;
-    margin-top: 10px;
+/* Styling for S-Coin Section (Now showing as an image) */
+#s-coin-section img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    max-width: 300px; /* Limit the width of the image */
 }
 
 /* Styling for the Free Gift - Smaller and tidier */
