@@ -89,25 +89,6 @@ button:hover {
     display: inline-block;
 }
 
-/* Styling for the Promo Period */
-#promo-period {
-    font-size: 1.2em;
-    color: #333;
-    margin-top: 5px;
-    background-color: #f9f9f9;
-    padding: 8px;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-/* Styling for expired promo */
-.expired-promo {
-    color: red;
-    font-size: 2em;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
 /* Styling for the "Code need to key" section */
 #code-to-key {
     font-size: 0.8em; /* Smallest text */
