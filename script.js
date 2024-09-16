@@ -104,11 +104,11 @@ document.getElementById('view-promo-btn').addEventListener('click', () => {
 // Display promo information
 function displayPromoInfo(promo) {
     // Display selected model
-    document.getElementById('selected-model').innerText = Selected Model: ${selectedModel};
+    document.getElementById('selected-model').innerText = `Selected Model: ${selectedModel}`;
 
     // Display promo details
-    document.getElementById('normal-price').innerText = RM ${promo.RCP};
-    document.getElementById('discounted-price').innerText = RM ${promo.FINAL};
+    document.getElementById('normal-price').innerText = `RM ${promo.RCP}`;
+    document.getElementById('discounted-price').innerText = `RM ${promo.FINAL}`;
     document.getElementById('free-gift').innerText = promo.GIFT !== '' ? promo.GIFT : 'No free gift available';
 
     // Handle S-Coin - Replace with image
@@ -118,8 +118,8 @@ function displayPromoInfo(promo) {
 
     if (sCoinValue) {
         const img = document.createElement('img');
-        img.src = S-Coin_${sCoinValue}.png; // Dynamically use the correct image
-        img.alt = ${sCoinValue}% S-Coin Rebate;
+        img.src = `S-Coin_${sCoinValue}.png`; // Dynamically use the correct image
+        img.alt = `${sCoinValue}% S-Coin Rebate`;
         img.style.width = '100%'; // Make it responsive to the container
         img.style.maxWidth = '300px'; // Ensure it fits nicely
         img.style.display = 'block';
@@ -129,16 +129,16 @@ function displayPromoInfo(promo) {
 
     // Handle PAC and VOU (Code need to key section)
     let pacInfo = promo.PAC || ''; // Get PAC value
-    let vouInfo = promo.VOU ? INSTANTSAVE${promo.VOU} : ''; // Format VOU value if it exists
+    let vouInfo = promo.VOU ? `INSTANTSAVE${promo.VOU}` : ''; // Format VOU value if it exists
     let codeToKeyText = '';
 
     // Combine PAC and VOU based on existence
     if (pacInfo && vouInfo) {
-        codeToKeyText = Code need to key: ${pacInfo} & ${vouInfo};
+        codeToKeyText = `Code need to key: ${pacInfo} & ${vouInfo}`;
     } else if (pacInfo) {
-        codeToKeyText = Code need to key: ${pacInfo};
+        codeToKeyText = `Code need to key: ${pacInfo}`;
     } else if (vouInfo) {
-        codeToKeyText = Code need to key: ${vouInfo};
+        codeToKeyText = `Code need to key: ${vouInfo}`;
     }
 
     // Display the "Code need to key" section if applicable
