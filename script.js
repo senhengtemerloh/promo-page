@@ -103,35 +103,10 @@ document.getElementById('view-promo-btn').addEventListener('click', () => {
 
 // Display promo information
 function displayPromoInfo(promo) {
-    const today = new Date();
-    
-    // Parse the "END" date in DD/MM/YYYY format
-    const [day, month, year] = promo.END.split('/').map(Number);
-    const promoEndDate = new Date(year, month - 1, day); // JS months are 0-indexed, so we subtract 1 from the month
-
-    if (promoEndDate < today) {
-        // If the promo has expired, show an error message
-        const expiredMessage = document.createElement('p');
-        expiredMessage.innerText = "This promo has expired. Please refer to the page admin to update the database.";
-        expiredMessage.style.color = 'red';
-        expiredMessage.style.fontSize = '1.5em';
-        expiredMessage.style.fontWeight = 'bold';
-
-        // Clear previous content and display the error message
-        document.getElementById('promo-info-section').innerHTML = ''; // Clear existing promo info
-        document.getElementById('promo-info-section').appendChild(expiredMessage);
-        document.getElementById('promo-info-section').style.display = 'block'; // Show the section with the message
-
-        // Hide other sections and buttons
-        document.getElementById('brands').style.display = 'none';
-        document.getElementById('model-section').style.display = 'none';
-        document.getElementById('view-promo-section').style.display = 'none';
-        document.getElementById('reset-btn-section').style.display = 'block'; // Only show reset button
-        return;
-    }
-
-    // If promo is still valid, display selected model and promo details
+    // Display selected model
     document.getElementById('selected-model').innerText = `Selected Model: ${selectedModel}`;
+
+    // Display promo details
     document.getElementById('normal-price').innerText = `RM ${promo.RCP}`;
     document.getElementById('discounted-price').innerText = `RM ${promo.FINAL}`;
     document.getElementById('free-gift').innerText = promo.GIFT !== '' ? promo.GIFT : 'No free gift available';
@@ -140,6 +115,7 @@ function displayPromoInfo(promo) {
     const sCoinValue = promo['S-Coin'] ? promo['S-Coin'] * 100 : null;
     const sCoinSection = document.getElementById('s-coin-section');
     sCoinSection.innerHTML = ''; // Clear existing content
+
     if (sCoinValue) {
         const img = document.createElement('img');
         img.src = `S-Coin_${sCoinValue}.png`; // Dynamically use the correct image
