@@ -104,7 +104,10 @@ document.getElementById('view-promo-btn').addEventListener('click', () => {
 // Display promo information
 function displayPromoInfo(promo) {
     const today = new Date();
-    const promoEndDate = new Date(promo.END); // Assuming "END" column holds the date in a recognizable format
+    
+    // Parse the "END" date in DD/MM/YYYY format
+    const [day, month, year] = promo.END.split('/').map(Number);
+    const promoEndDate = new Date(year, month - 1, day); // JS months are 0-indexed, so we subtract 1 from the month
 
     if (promoEndDate < today) {
         // If the promo has expired, show an error message
