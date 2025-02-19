@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clearance Stock - While Stocks Last!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -85,7 +86,6 @@
             color: #333;
             font-weight: 600;
             text-align: center;
-            padding: 0 10px;
         }
 
         .product-code {
@@ -104,6 +104,20 @@
             font-weight: bold;
             font-size: 1.2em;
             text-align: center;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .upload-button {
+            background: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         @media (max-width: 600px) {
@@ -126,16 +140,50 @@
     <div class="header">
         <h1>Clearance Stock</h1>
         <p>While Stocks Last!</p>
+        <br>
+        <label for="file-input" class="upload-button">Load Spreadsheet</label>
+        <input type="file" id="file-input" accept=".xlsx,.xls">
     </div>
 
     <div class="products-grid" id="products-container">
         <!-- Products will be loaded here -->
     </div>
 
-    <!-- Load the products data -->
-    <script src="products.js"></script>
-    
     <script>
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                
+                // Get the first sheet
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                
+                // Convert to JSON
+                const products = XLSX.utils.sheet_to_json(firstSheet);
+                
+                // Clear existing products
+                const container = document.getElementById('products-container');
+                container.innerHTML = '';
+                
+                // Add each product
+                products.forEach(product => {
+                    const card = createProductCard(
+                        product.Brand,
+                        product.Code,
+                        product.Name,
+                        product.Price,
+                        product.Url
+                    );
+                    container.appendChild(card);
+                });
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
+
         function createProductCard(brand, code, name, price, imageUrl) {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -150,23 +198,6 @@
             `;
             return card;
         }
-
-        // Load products when page loads
-        window.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('products-container');
-            
-            // Add each product
-            productsData.forEach(product => {
-                const card = createProductCard(
-                    product.Brand,
-                    product.Code,
-                    product.Name,
-                    product.Price,
-                    product.Url
-                );
-                container.appendChild(card);
-            });
-        });
     </script>
 </body>
 </html>
