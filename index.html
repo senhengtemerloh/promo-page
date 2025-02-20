@@ -51,11 +51,15 @@
     .product-card:hover {
       transform: scale(1.05);
     }
+    /* Brand Badge Style */
     .product-brand {
-      font-size: 1.3em;
-      font-weight: bold;
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      font-size: 1em;
       margin-bottom: 10px;
-      color: #e74c3c;
       text-align: center;
     }
     .image-container {
@@ -88,6 +92,13 @@
       background-color: #e74c3c; /* Red background for price */
       color: #fff;
       border-radius: 5px;
+    }
+    .product-note {
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 8px;
+      text-align: center;
+      font-style: italic;
     }
   </style>
 </head>
@@ -122,7 +133,7 @@
         const card = createProductCard(
           product.Brand,
           product.Code,
-          product.Name,  // Product name from the "Name" column
+          product.Name,
           product.Price,
           product.Url
         );
@@ -142,6 +153,7 @@
         <div class="product-name">${name}</div>
         <div class="product-code">Model Code: ${code}</div>
         <div class="product-price">RM${typeof price === 'number' ? price.toLocaleString() : price}</div>
+        <div class="product-note">*Image is for illustration only. Limited stock, first come first serve.</div>
       `;
       return card;
     }
