@@ -56,6 +56,7 @@
       font-weight: bold;
       margin-bottom: 10px;
       color: #e74c3c;
+      text-align: center;
     }
     .image-container {
       text-align: center;
@@ -66,10 +67,18 @@
       height: auto;
       border-radius: 8px;
     }
+    .product-name {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #333;
+      text-align: center;
+    }
     .product-code {
       font-size: 1.1em;
       color: #555;
       margin-bottom: 15px;
+      text-align: center;
     }
     .product-price {
       font-size: 2em;
@@ -113,6 +122,7 @@
         const card = createProductCard(
           product.Brand,
           product.Code,
+          product.Name,  // Product name from the "Name" column
           product.Price,
           product.Url
         );
@@ -120,7 +130,7 @@
       });
     }
 
-    function createProductCard(brand, code, price, imageUrl) {
+    function createProductCard(brand, code, name, price, imageUrl) {
       const card = document.createElement('div');
       card.className = 'product-card';
 
@@ -129,6 +139,7 @@
         <div class="image-container">
           <img src="${imageUrl}" alt="${code}" class="product-image" onerror="this.src='https://via.placeholder.com/280x200?text=No+Image'">
         </div>
+        <div class="product-name">${name}</div>
         <div class="product-code">Model Code: ${code}</div>
         <div class="product-price">RM${typeof price === 'number' ? price.toLocaleString() : price}</div>
       `;
