@@ -3,100 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clearance Stock - While Stocks Last!</title>
+  <title>Clearance Stock Catalog</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    /* Base Styles */
+    /* Global Styles */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff9e6; /* Light yellow background */
+      color: #333;
     }
+    /* Header with Red and Yellow Theme */
     .header {
-      background: linear-gradient(135deg, #4CAF50, #81C784);
+      background: linear-gradient(45deg, #e74c3c, #f1c40f);
       color: #fff;
       text-align: center;
       padding: 30px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .header h1 {
       margin: 0;
-      font-size: 2.5em;
+      font-size: 2.8em;
+      font-weight: bold;
     }
     .header p {
-      margin: 10px 0 0;
+      margin-top: 10px;
       font-size: 1.2em;
     }
+    /* Products Grid Layout */
     .products-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 20px;
     }
+    /* Product Card Styling */
     .product-card {
       background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border: 2px solid #e74c3c;
+      border-radius: 10px;
       margin: 15px;
-      padding: 15px;
-      width: 260px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.2s;
     }
     .product-card:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
     }
     .product-brand {
+      font-size: 1.3em;
       font-weight: bold;
-      font-size: 1.2em;
-      color: #333;
+      margin-bottom: 10px;
+      color: #e74c3c;
     }
     .image-container {
       text-align: center;
-      margin: 10px 0;
+      margin-bottom: 15px;
     }
     .product-image {
       max-width: 100%;
       height: auto;
-      border-radius: 5px;
-    }
-    .product-name {
-      font-size: 1.1em;
-      margin: 10px 0;
-      color: #555;
+      border-radius: 8px;
     }
     .product-code {
-      color: #888;
-      font-size: 0.9em;
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 15px;
     }
-    /* Original style for product-price remains */
     .product-price {
-      font-size: 2em; /* Made price bigger */
-      margin: 10px 0;
-      color: #4CAF50;
-    }
-    /* Original style for stock-info remains */
-    .stock-info {
-      color: #666;
-      margin: 10px 0;
-    }
-    /* Original sold-out style remains */
-    .sold-out {
-      color: #d32f2f;
+      font-size: 2em;
       font-weight: bold;
-      margin: 10px 0;
+      text-align: center;
+      padding: 10px;
+      background-color: #e74c3c; /* Red background for price */
+      color: #fff;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>Clearance Stock</h1>
-    <p>While Stocks Last!</p>
+    <h1>Clearance Stock Catalog</h1>
+    <p>Reference only - Check stock manually</p>
   </div>
 
   <div class="products-grid" id="products-container">
-    <!-- Products will be loaded here -->
+    <!-- Product cards will be loaded here -->
   </div>
 
   <script>
@@ -120,28 +113,24 @@
         const card = createProductCard(
           product.Brand,
           product.Code,
-          product.Name,
           product.Price,
-          product.Url,
-          product.Stock
+          product.Url
         );
         container.appendChild(card);
       });
     }
 
-    function createProductCard(brand, code, name, price, imageUrl, stock) {
+    function createProductCard(brand, code, price, imageUrl) {
       const card = document.createElement('div');
       card.className = 'product-card';
 
       card.innerHTML = `
-        <span class="product-brand">${brand}</span>
+        <div class="product-brand">${brand}</div>
         <div class="image-container">
-          <img src="${imageUrl}" alt="${name}" class="product-image" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
+          <img src="${imageUrl}" alt="${code}" class="product-image" onerror="this.src='https://via.placeholder.com/280x200?text=No+Image'">
         </div>
-        <div class="product-name">${name}</div>
-        <div class="product-code">Code: ${code}</div>
+        <div class="product-code">Model Code: ${code}</div>
         <div class="product-price">RM${typeof price === 'number' ? price.toLocaleString() : price}</div>
-        <div class="stock-info">Stock: ${stock}</div>
       `;
       return card;
     }
