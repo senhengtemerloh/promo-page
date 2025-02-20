@@ -6,17 +6,51 @@
   <title>Clearance Stock - While Stocks Last!</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    /* Basic styles */
+    /* Base Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: linear-gradient(135deg, #4CAF50, #81C784);
+      color: #fff;
+      text-align: center;
+      padding: 30px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    .header p {
+      margin: 10px 0 0;
+      font-size: 1.2em;
+    }
+    .products-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
     .product-card {
+      background-color: #fff;
       border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 15px;
       padding: 15px;
-      margin: 10px;
-      display: inline-block;
-      vertical-align: top;
-      width: 250px;
+      width: 260px;
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: scale(1.03);
     }
     .product-brand {
       font-weight: bold;
+      font-size: 1.2em;
+      color: #333;
     }
     .image-container {
       text-align: center;
@@ -25,13 +59,33 @@
     .product-image {
       max-width: 100%;
       height: auto;
+      border-radius: 5px;
     }
-    .product-name, .product-code, .product-price, .stock-info {
-      margin: 8px 0;
+    .product-name {
+      font-size: 1.1em;
+      margin: 10px 0;
+      color: #555;
     }
+    .product-code {
+      color: #888;
+      font-size: 0.9em;
+    }
+    /* Original style for product-price remains */
     .product-price {
-      font-size: 1.5em;
-      color: #333;
+      font-size: 2em; /* Made price bigger */
+      margin: 10px 0;
+      color: #4CAF50;
+    }
+    /* Original style for stock-info remains */
+    .stock-info {
+      color: #666;
+      margin: 10px 0;
+    }
+    /* Original sold-out style remains */
+    .sold-out {
+      color: #d32f2f;
+      font-weight: bold;
+      margin: 10px 0;
     }
   </style>
 </head>
@@ -82,8 +136,7 @@
       card.innerHTML = `
         <span class="product-brand">${brand}</span>
         <div class="image-container">
-          <img src="${imageUrl}" alt="${name}" class="product-image" 
-          onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
+          <img src="${imageUrl}" alt="${name}" class="product-image" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
         </div>
         <div class="product-name">${name}</div>
         <div class="product-code">Code: ${code}</div>
